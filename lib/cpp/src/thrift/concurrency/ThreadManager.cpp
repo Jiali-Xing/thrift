@@ -29,6 +29,8 @@
 #include <deque>
 #include <set>
 
+#include <iostream>
+
 namespace apache {
 namespace thrift {
 namespace concurrency {
