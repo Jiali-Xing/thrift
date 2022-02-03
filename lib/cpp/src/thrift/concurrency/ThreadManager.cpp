@@ -479,6 +479,7 @@ void ThreadManager::Impl::add(shared_ptr<Runnable> value, int64_t timeout, int64
     }
   }
 
+  std::cout << "ThreadManager.cpp: Push back a Task into the task queue.\n";
   tasks_.push_back(std::make_shared<ThreadManager::Task>(value, expiration));
 
   // If idle thread is available notify it, otherwise all worker threads are

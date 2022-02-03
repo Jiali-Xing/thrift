@@ -63,6 +63,7 @@ public:
     (void)input;
     (void)output;
     return nullptr;
+    // JX: what does this function create?
   }
 
   /**

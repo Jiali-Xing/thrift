@@ -50,6 +50,7 @@ TConnectedClient::~TConnectedClient() = default;
 void TConnectedClient::run() {
   if (eventHandler_) {
     opaqueContext_ = eventHandler_->createContext(inputProtocol_, outputProtocol_);
+    // JX: this opaqueContext is a null pointer?
   }
 
   for (bool done = false; !done;) {

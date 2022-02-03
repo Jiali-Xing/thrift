@@ -142,6 +142,7 @@ void TServerFramework::serve() {
         }
       }
 
+      std::cout << "TServerFramework.cpp: Accpet a new client from serverTransport.\n";
       client = serverTransport_->accept();
 
       inputTransport = inputTransportFactory_->getTransport(client);
@@ -227,6 +228,7 @@ void TServerFramework::newlyConnectedClient(const shared_ptr<TConnectedClient>& 
     hwm_ = (std::max)(hwm_, clients_);
   }
 
+  std::cout << "TServerFramework.cpp: onClientConnected called.\n";
   onClientConnected(pClient);
 }
 
