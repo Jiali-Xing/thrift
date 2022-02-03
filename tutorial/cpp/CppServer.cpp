@@ -130,13 +130,13 @@ class CalculatorCloneFactory : virtual public CalculatorIfFactory {
 };
 
 int main() {
+  /*
   TThreadedServer server(
     std::make_shared<CalculatorProcessorFactory>(std::make_shared<CalculatorCloneFactory>()),
     std::make_shared<TServerSocket>(9090), //port
     std::make_shared<TBufferedTransportFactory>(),
     std::make_shared<TBinaryProtocolFactory>());
 
-  /*
   // if you don't need per-connection state, do the following instead
   TThreadedServer server(
     std::make_shared<CalculatorProcessor>(std::make_shared<CalculatorHandler>()),
@@ -155,6 +155,7 @@ int main() {
     std::make_shared<TBufferedTransportFactory>(),
     std::make_shared<TBinaryProtocolFactory>());
 
+  */
   const int workerCount = 4;
 
   std::shared_ptr<ThreadManager> threadManager =
@@ -170,7 +171,6 @@ int main() {
     std::make_shared<TBufferedTransportFactory>(),
     std::make_shared<TBinaryProtocolFactory>(),
     threadManager);
-  */
 
   cout << "Starting the server..." << endl;
   server.serve();

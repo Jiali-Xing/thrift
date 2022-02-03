@@ -39,42 +39,48 @@ int main() {
   std::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
   CalculatorClient client(protocol);
 
-  try {
-    transport->open();
-
-    client.ping();
-    cout << "ping()" << endl;
-
-    cout << "1 + 1 = " << client.add(1, 1) << endl;
-
-    Work work;
-    work.op = Operation::DIVIDE;
-    work.num1 = 1;
-    work.num2 = 0;
-
+  for (int i = 0; i < 3; i++) {
     try {
-      client.calculate(1, work);
-      cout << "Whoa? We can divide by zero!" << endl;
-    } catch (InvalidOperation& io) {
-      cout << "InvalidOperation: " << io.why << endl;
-      // or using generated operator<<: cout << io << endl;
-      // or by using std::exception native method what(): cout << io.what() << endl;
+      transport->open();
+  
+      client.ping();
+      cout << "ping()" << endl;
+  
+      cout << "1 + 1 = " << client.add(1, 1) << endl;
+  
+      Work work;
+      work.op = Operation::DIVIDE;
+      work.num1 = 1;
+      work.num2 = 0;
+  
+      for (int j = 0; j < 3; j++) {
+        try {
+          client.calculate(1, work);
+          cout << "Whoa? We can divide by zero!" << endl;
+        } catch (InvalidOperation& io) {
+          cout << "InvalidOperation: " << io.why << endl;
+          // or using generated operator<<: cout << io << endl;
+          // or by using std::exception native method what(): cout << io.what() << endl;
+        }
+      }
+  
+      work.op = Operation::SUBTRACT;
+      work.num1 = 15;
+      work.num2 = 10;
+      for (int i = 0; i < 30; i++) {
+        int32_t diff = client.calculate(1, work);
+        cout << "15 - 10 = " << diff << endl;
+      }
+  
+      // Note that C++ uses return by reference for complex types to avoid
+      // costly copy construction
+      SharedStruct ss;
+      client.getStruct(ss, 1);
+      cout << "Received log: " << ss << endl;
+  
+      transport->close();
+    } catch (TException& tx) {
+      cout << "ERROR: " << tx.what() << endl;
     }
-
-    work.op = Operation::SUBTRACT;
-    work.num1 = 15;
-    work.num2 = 10;
-    int32_t diff = client.calculate(1, work);
-    cout << "15 - 10 = " << diff << endl;
-
-    // Note that C++ uses return by reference for complex types to avoid
-    // costly copy construction
-    SharedStruct ss;
-    client.getStruct(ss, 1);
-    cout << "Received log: " << ss << endl;
-
-    transport->close();
-  } catch (TException& tx) {
-    cout << "ERROR: " << tx.what() << endl;
   }
 }
